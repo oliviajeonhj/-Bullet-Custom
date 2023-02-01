@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>스와이퍼</title>
+  <link
+  rel="stylesheet"
+  href="https://cdn.jsdelivr.net/npm/swiper@8/swiper-bundle.min.css"
+/>
+
+<script src="https://cdn.jsdelivr.net/npm/swiper@8/swiper-bundle.min.js"></script>
+<style>
+#myswiper .swiper-slide{
+  background-color: rgb(164, 197, 112);
+  height: 100vw; display: flex; flex-direction: column; justify-content: center; align-items: center;
+  }
+/* 플러그인튜닝 + 스타일처리 
+1024 / 991 / 768 / 1150 -> 이미지는 1080으로 처리해둔다
+*/
+/* 모바일에서는 앞뒤버튼 없어지고 1.5개로 노출되고 스크롤 나와야한다. 높이는 화면너비와 동일하게 처리 */
+
+#myswiper .swiper-button-prev::after,
+#myswiper .swiper-button-next::after{
+  content: "";
+  display: block;
+  border-top: 1px solid black;
+  border-right: 1px solid black;
+  width: 20px; height: 20px;
+}
+#myswiper .swiper-button-next::after{
+  transform: rotate(45deg);
+}
+#myswiper .swiper-button-prev::after{
+  transform: rotate(-135deg);
+}
+
+#myswiper .wiper-horizontal>.swiper-scrollbar, #myswiper .swiper-scrollbar.swiper-scrollbar-horizontal{
+  height: 1px;
+}
+.swiper-pagination{
+  display: flex; justify-content: center; align-items: center;
+}
+.swiper-pagination .btn span:nth-child(1){ display: block; }
+.swiper-pagination .btn span:nth-child(2){ display: none; }
+.swiper-pagination .btn.active span:nth-child(2){ display: block !important; }
+.swiper-pagination .btn.active span:nth-child(1){ display: none ;}
+
+
+
+@media(min-width : 1025px) {
+  #myswiper .swiper-scrollbar{
+  display: none;
+  }
+  #myswiper .swiper-slide{
+  height: 800px;
+  }
+}
+@media(max-width : 1024px) {
+  #myswiper .swiper-button-prev,
+  #myswiper .swiper-button-next{
+  display: none;
+  }
+}
+
+</style>
+</head>
+<body>
+
+<div class="swiper" id="myswiper">
+
+  <div class="swiper-wrapper">
+
+    <div class="swiper-slide" data-btn="신년 30% 할인특가전">슬라이드 완</div>
+    <div class="swiper-slide" data-btn="이벤트">슬라이드 투</div>
+    <div class="swiper-slide" data-btn="활성화 될때 나만 칼라">슬라이드 쑤리</div>
+    <div class="swiper-slide" data-btn="퍼블의 꽃">슬라이드 포</div>
+    <div class="swiper-slide" data-btn="스와이퍼 튜닝">슬라이드 퐈이브</div>
+
+  </div>
+
+  <div class="swiper-pagination"></div>
+
+  <div class="swiper-button-prev"></div>
+  <div class="swiper-button-next"></div>
+
+  <div class="swiper-scrollbar"></div>
+</div>
+
+<script>
+  const swiper = new Swiper('.swiper', {
+    slidesPerView: 1.5,
+    spaceBetween : 10,
+    centeredSlides: true,
+    breakpoints: {
+      768:{
+        slidesPerView: 2.5,
+        spaceBetween : 20},
+
+      1150: {
+        slidesPerView: 1,
+        spaceBetween : 40}
+    },
+    autoPlay:{
+      delay: 2500,
+      disableOnInteraction: false,
+    },
+    loop: true,
+    pagination: {
+      bulletActiveClass: 'active',
+      bulletClass: 'btn' ,
+      el: '#myswiper .swiper-pagination',
+      clickable: true,
+      renderBullet: function (index, className) {
+        //realIndex 활성화된 인덱스
+        //activeIndex 루프 돌렸을때 번호가 달라지고 난리남
+        //slides -> swiper-slide 객체 Array
+        //function 함수 내의 실행식 변수에 접근하려면 this로 접근해야 한다.
+          return '<div class="' + className + '"><span>'+ index + '</span><span>' + this.slides[index].getAttribute('data-btn')  + '</span></div>';
+        },
+    },
+    navigation: {
+      nextEl: '#myswiper .swiper-button-next',
+      prevEl: '#myswiper .swiper-button-prev',
+    },
+    scrollbar: {
+      el: '#myswiper .swiper-scrollbar',
+    },
+});
+
+
+</script>
+</body>
+</html>
